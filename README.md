@@ -4,6 +4,6 @@
 
 Для запуска файла необходимы:
 
-pip install requests
-pip install beautifulsoup4
-pip install prettytable
+pip install requests /
+pip install beautifulsoup4 /
+pip install prettytable /
