@@ -1,0 +1,6 @@
+/venv/
+*.pyc
+__pycache__/
+table.html
+main.py
+testing_single_article.py
