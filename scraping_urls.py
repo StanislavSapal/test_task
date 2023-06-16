@@ -10,6 +10,10 @@ soup = BeautifulSoup(r.text, 'html.parser')
 
 urls_on_page = [url.get('href') for url in soup.find_all('a')]
 
+a_tags = soup.find('div', class_='col-sm-xl-12 layout-section wrap-bottom').find_all('a')
+a_text = [tag.text for tag in a_tags if tag.text not in ['Travel', '', 'Hotel']]
+
+articles_quantity = len(a_text)
 
 urls_on_page.remove(None)
 

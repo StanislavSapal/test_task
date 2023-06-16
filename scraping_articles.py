@@ -2,7 +2,7 @@ import os
 import csv
 import requests
 from bs4 import BeautifulSoup
-from scraping_urls import travel_urls
+from scraping_urls import travel_urls, articles_quantity
 
 
 def text_to_words_list(*args):
@@ -83,4 +83,5 @@ with open('result_table.csv', 'w', newline='') as file:
 
 file_path = os.path.abspath("result_table.csv")
 
+print("Количество публикаций на странице - ", articles_quantity)
 print("Данные записаны в файл 'result_table.csv'", file_path)
