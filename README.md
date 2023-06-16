@@ -1,9 +1,9 @@
 # test_task
 
-В результате запуска файла scraping_articles.py получаем результирующую таблицу с выборкой необходимой информации со статей на заявленной в задании странице.
-
-Для запуска файла необходимы:
+To get the data required in test task:
 
 pip install requests /
 pip install beautifulsoup4 /
-pip install prettytable /
+
+
+run scraping_articles.py

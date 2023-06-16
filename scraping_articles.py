@@ -1,12 +1,13 @@
+import os
+import csv
 import requests
 from bs4 import BeautifulSoup
 from scraping_urls import travel_urls
-from prettytable import PrettyTable
 
 
 def text_to_words_list(*args):
-    """Функция принимает строки и списки строк и складывает все слова в единый список, очищая от знаков
-    в конце каждого слова, если они есть"""
+    """The function takes strings and lists of strings and returns a single list,
+     clearing the punctuation marks at the end of each word."""
 
     words_list = []
 
@@ -45,33 +46,41 @@ def get_most_repeated_word(words_list):
     return most_repeated_word
 
 
-table = PrettyTable()
-table.field_names = ['Название статьи', 'Урл статьи', 'Количество слов', 'Количество абзацев', 'Количество изображений',
-                     'Самое распространенное слово', 'Теги статьи']
+with open('result_table.csv', 'w', newline='') as file:
+    writer = csv.writer(file)
+    fields = ['Название статьи', 'Урл статьи', 'Количество слов', 'Количество абзацев', 'Количество изображений',
+              'Самое распространенное слово', 'Теги статьи']
 
-for url in travel_urls:
-    link = 'https://www.thenationalnews.com' + url
-    r = requests.get(link)
-    soup = BeautifulSoup(r.text, 'html.parser')
+    writer.writerow(fields)
 
-    h1_text = soup.find('h1').text
+    for url in travel_urls:
+        link = 'https://www.thenationalnews.com' + url
+        r = requests.get(link)
+        soup = BeautifulSoup(r.text, 'html.parser')
 
-    h2_tags = soup.findAll('h2')
-    h2_text = [elem.text for elem in h2_tags]
+        h1_text = soup.find('h1').text
 
-    p_tags = soup.findAll('p')
-    p_text = [elem.text for elem in p_tags]
+        h2_tags = soup.findAll('h2')
+        h2_text = [elem.text for elem in h2_tags]
 
-    words_in_article_list = text_to_words_list(h1_text, h2_text, p_text)
+        p_tags = soup.findAll('p')
+        p_text = [elem.text for elem in p_tags]
 
-    images = soup.findAll('figure')
+        words_in_article_list = text_to_words_list(h1_text, h2_text, p_text)
 
-    paragraph_quantity = len(p_tags) - len(images)  # под каждым изображением есть текст, который по сути
-                                                    # абзацем не является.
-    tag_blocks = soup.find('div', class_='default__TagsHolder-a1tih0-0 dlTgjK tags-holder margin-sm-bottom').findAll('a')
-    tags = [tag.text for tag in tag_blocks]
+        images = soup.findAll('figure')
 
-    table.add_row([h1_text, link, len(words_in_article_list), paragraph_quantity, len(images),
-                   get_most_repeated_word(words_in_article_list), tags])
+        paragraph_quantity = len(p_tags) - len(images)  # There are p tags under every picture that aren't actually
+                                                        # paragraphs we need to count.
 
-print(table)
+        tag_blocks = soup.find('div', class_='default__TagsHolder-a1tih0-0 dlTgjK tags-holder margin-sm-bottom').findAll('a')
+        tags = [tag.text for tag in tag_blocks]
+
+        row_data = [h1_text, link, len(words_in_article_list), paragraph_quantity, len(images),
+                    get_most_repeated_word(words_in_article_list), tags]
+
+        writer.writerow(row_data)
+
+file_path = os.path.abspath("result_table.csv")
+
+print("Данные записаны в файл 'result_table.csv'", file_path)

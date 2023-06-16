@@ -4,3 +4,7 @@ __pycache__/
 table.html
 main.py
 testing_single_article.py
+/.idea
+table.pdf
+style.css
+result_table.csv
