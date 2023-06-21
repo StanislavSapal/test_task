@@ -26,9 +26,9 @@ def text_to_words_list(*args):
 
 
 def get_most_repeated_word(words_list):
-    words_list = [word for word in words_list if word.lower() not in ['the', 'and', 'to', 'on', 'in', 'at', 'a', 'an',
-                                                                      'of', 'from', 'is', 'with', 'will', 'are', 'for',
-                                                                      'as', 'that', 'by']]
+    irrelevant_words = ['the', 'and', 'to', 'on', 'in', 'at', 'a', 'an', 'of', 'from', 'is', 'with', 'will', 'are',
+                        'for', 'as', 'that', 'by']
+    words_list = [word for word in words_list if word.lower() not in irrelevant_words]
     word_count = {}
     max_count = 0
     most_repeated_word = ""

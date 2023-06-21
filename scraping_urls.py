@@ -8,10 +8,10 @@ r = requests.get(url)
 soup = BeautifulSoup(r.text, 'html.parser')
 
 
-urls_on_page = [url.get('href') for url in soup.find_all('a')]
 
 a_tags = soup.find('div', class_='col-sm-xl-12 layout-section wrap-bottom').find_all('a')
 a_text = [tag.text for tag in a_tags if tag.text not in ['Travel', '', 'Hotel']]
+urls_on_page = [url.get('href') for url in a_tags]
 
 articles_quantity = len(a_text)
 
